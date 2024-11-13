@@ -1,0 +1,34 @@
+{
+  "name": "fundonotesbackend",
+  "version": "1.0.0",
+  "main": "build/index.js",
+  "type": "module",
+  "proxy": "http://10.0.2.2:8000",
+  "scripts": {
+    "dev": "nodemon --exec babel-node src/index.js",
+    "build": "rimraf build && babel src --out-dir build"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "http-status-code": "^2.1.0",
+    "http-status-codes": "^2.3.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.6.3",
+    "mongoose-aggregate-paginate-v2": "^1.1.2",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.7",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.25.7",
+    "@babel/core": "^7.25.8",
+    "@babel/node": "^7.25.7",
+    "@babel/preset-env": "^7.25.8"
+  }
+}
