@@ -13,7 +13,7 @@ pipeline {
             steps {
                 // Build the application if necessary
                 script {
-                    sh 'ssh ubuntu@13.203.78.22 npm run dev'
+                    sh 'ssh ubuntu@13.203.78.22 "cd book-store-backend && npm run dev"'
                 }
             }
         }
