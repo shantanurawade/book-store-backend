@@ -12,11 +12,11 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 // Install npm packages
-                script {
-                    if (fileExists('package.json')) {
-                        sh 'npm install'
-                    }
-                }
+                // script {
+                //     if (fileExists('package.json')) {
+                //         sh 'npm install'
+                //     }
+                // }
             }
         }
 
