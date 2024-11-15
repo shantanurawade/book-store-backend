@@ -12,6 +12,23 @@ export const getAllUser = async (req, res) => {
     });
 }
 
+export const login = async (req, res) => {
+    const body = req.body;
+    const data = await userServices.login(body);
+    if (data == 0) {
+        return res.status(HttpStatus.BAD_REQUEST).send({
+            message: "User login unsuccessful.",
+            responce: 0
+        });
+    }
+
+    return res.status(HttpStatus.ACCEPTED).send({
+        message: "User login successfully...",
+        data: data,
+        responce: 1
+    });
+}
+
 export const registerUser = async (req, res) => {
     const reqData = req.body;
     const existingUser = await userServices.findUser(reqData);
@@ -23,7 +40,8 @@ export const registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(reqData.password, 16);
 
     const data = await userData.create({
-        name: reqData.name,
+        firstName: reqData.firstName,
+        lastName: reqData.lastName,
         email: reqData.email,
         password: hashedPassword
     });
@@ -38,6 +56,17 @@ export const addToCart = async (req, res) => {
     const userId = req.params._userId;
     const reqData = req.body;
     const data = await userServices.addToCart(userId, reqData);
+    res.status(HttpStatus.OK).send({
+        data: data,
+        message: "Item added to cart successfully..."
+    })
+}
+
+
+export const addToWishlist = async (req, res) => {
+    const userId = req.params._userId;
+    const reqData = req.body;
+    const data = await userServices.addToWishlist(userId, reqData);
     res.status(HttpStatus.OK).send({
         data: data,
         message: "Item added to cart successfully..."
