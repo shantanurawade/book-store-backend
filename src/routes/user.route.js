@@ -7,11 +7,16 @@ const route = express.Router();
 const userRouter = () => {
     route.get('/get', userController.getAllUser);
     route.post('/register', userController.registerUser);
-    route.patch('/addToCart/:_userId', userController.addToCart);
+    route.post('/login', userController.login);
+
+
     route.get('/get/:_id', async (req, res) => {
         const data = await userData.findById(req.params._id);
         res.send(data)
     });
+    route.patch('/addToCart/:_userId', userController.addToCart);
+    route.patch('/addToWishlist/:_userId', userController.addToWishlist);
+
 
     return route;
 }

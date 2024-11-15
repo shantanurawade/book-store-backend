@@ -7,6 +7,13 @@ export const getBooks = async (req, res) => {
         data
     });
 }
+export const getBookById = async (req, res) => {
+    const data = await bookServices.getBookById(req.params);
+    res.send({
+        message: "this is list of all books...",
+        data
+    });
+}
 
 export const createBook = async (req, res) => {
     const body = req.body;

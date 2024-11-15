@@ -5,8 +5,9 @@ const route = express.Router();
 
 const bookRoute = () => {
     route.get('/get', bookController.getBooks);
-    route.post('/create-book', bookController.createBook)
+    route.get('/getByID/:_id', bookController.getBookById);
+    route.post('/create-book', bookController.createBook);
     return route;
 }
-
+ 
 export default bookRoute;

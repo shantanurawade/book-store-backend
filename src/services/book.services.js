@@ -4,6 +4,10 @@ export const getAllBooks = async () => {
     const data = await bookModel.find();
     return data;
 }
+export const getBookById = async (bookId) => {
+    const data = await bookModel.findOne({_id: bookId});
+    return data;
+}
 
 export const createBook = async (body) => {
     const data = await bookModel({
