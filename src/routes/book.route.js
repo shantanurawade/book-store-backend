@@ -9,5 +9,5 @@ const bookRoute = () => {
     route.post('/create-book', bookController.createBook);
     return route;
 }
- 
+
 export default bookRoute;

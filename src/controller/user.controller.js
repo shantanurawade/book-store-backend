@@ -16,24 +16,32 @@ export const login = async (req, res) => {
     const body = req.body;
     const data = await userServices.login(body);
     if (data == 0) {
-        return res.status(HttpStatus.BAD_REQUEST).send({
-            message: "User login unsuccessful.",
+        return res.status(HttpStatus.NOT_FOUND).send({
             responce: 0
         });
     }
-
-    return res.status(HttpStatus.ACCEPTED).send({
+    if (data == -1) {
+        return res.status(HttpStatus.UNAUTHORIZED).send({
+            responce: 0
+        });
+    }
+    return res.status(HttpStatus.OK).send({
         message: "User login successfully...",
         data: data,
         responce: 1
     });
 }
 
+export const getUserById = async (req, res) => {
+    const data = await userServices.getUserById(req);
+    res.status(HttpStatus.ACCEPTED).send(data);
+}
 export const registerUser = async (req, res) => {
+
     const reqData = req.body;
     const existingUser = await userServices.findUser(reqData);
 
-    if (existingUser) return res.status(HttpStatus.BAD_REQUEST).send({
+    if (existingUser) return res.status(HttpStatus.CONFLICT).send({
         message: "User already exists, try sign in..."
     });
 
@@ -45,7 +53,7 @@ export const registerUser = async (req, res) => {
         email: reqData.email,
         password: hashedPassword
     });
-    res.status(HttpStatus.OK).send({
+    res.status(HttpStatus.CREATED).send({
         data: data,
         message: "User saved successfully..."
     })
@@ -53,8 +61,9 @@ export const registerUser = async (req, res) => {
 }
 
 export const addToCart = async (req, res) => {
-    const userId = req.params._userId;
+    const userId = req.user.id;
     const reqData = req.body;
+
     const data = await userServices.addToCart(userId, reqData);
     res.status(HttpStatus.OK).send({
         data: data,
@@ -64,7 +73,7 @@ export const addToCart = async (req, res) => {
 
 
 export const addToWishlist = async (req, res) => {
-    const userId = req.params._userId;
+    const userId = req.user.id;
     const reqData = req.body;
     const data = await userServices.addToWishlist(userId, reqData);
     res.status(HttpStatus.OK).send({

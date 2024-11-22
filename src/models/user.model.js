@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 
 const user = new mongoose.Schema({
     firstName: {
@@ -18,12 +18,12 @@ const user = new mongoose.Schema({
         type: String,
         required: true
     }, cart: {
-        items: { type: [{ bookId: { type: mongoose.Schema.Types.ObjectId, unique: true }, quantity: { type: Number, default: 0 } }], default: [] }, totalAmount: { type: Number, default: 0 },
-        _id: false
+        items: { type: [{ bookId: { type: mongoose.Schema.Types.ObjectId, unique: true }, _id: false, quantity: { type: Number, default: 0 } }], default: [] }, totalAmount: { type: Number, default: 0 },
+
     }, wishlist: {
         items: {
             type: [{
-                bookId: { type: mongoose.Schema.Types.ObjectId, unique: true }
+                bookId: { type: mongoose.Schema.Types.ObjectId, unique: true }, _id: false
             }]
         }
     }
