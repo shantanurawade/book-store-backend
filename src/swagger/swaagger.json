@@ -1,0 +1,532 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Documentation for Book Store Application",
+        "description": "This is a backend project developed in Express using MongoDB.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000"
+        }
+    ],
+    "paths": {
+        "/api/v1/user/register": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "api for registering user.",
+                "description": "Create a new user by providing their details.",
+                "requestBody": {
+                    "required": "true",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "firstName": {
+                                        "type": "string",
+                                        "example": "Shantanu"
+                                    },
+                                    "lastName": {
+                                        "type": "string",
+                                        "example": "Rawade"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "abc@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "pass123"
+                                    }
+                                },
+                                "required": [
+                                    "firstName",
+                                    "lastName",
+                                    "email",
+                                    "password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User successfully registered.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User registered successfully."
+                                        },
+                                        "userId": {
+                                            "type": "string",
+                                            "example": "23kj5h32jk5jkl2345j"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request. Missing or invalid fields.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Invalid input data."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict. User with the same email already exists.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "User with this email already exists."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Something went wrong, please try again later."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/user/login": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "api for login user.",
+                "description": "Checking user info from database, compare passwords and returns user's jwt.",
+                "requestBody": {
+                    "required": "true",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "abc@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "pass123"
+                                    }
+                                },
+                                "required": [
+                                    "email",
+                                    "password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User login successful.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User login successfully..."
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "token": {
+                                                    "type": "string",
+                                                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                                                },
+                                                "userId": {
+                                                    "type": "string",
+                                                    "example": "23kj5h32jk5jkl2345j"
+                                                }
+                                            }
+                                        },
+                                        "responce": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Invalid email or password.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "responce": {
+                                            "type": "integer",
+                                            "example": 0
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "responce": {
+                                            "type": "integer",
+                                            "example": 0
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Something went wrong, please try again later."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/user/cart": {
+            "patch": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Add item to cart",
+                "description": "Add a book to the user's cart or update its quantity if it already exists.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "bookId": {
+                                        "type": "string",
+                                        "example": "63f45fdcba98d2345678abcd"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "example": 200.5
+                                    }
+                                },
+                                "required": [
+                                    "bookId",
+                                    "price"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item successfully added to the cart.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": null
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Item added to cart successfully..."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Something went wrong, please try again later."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/user/wishlist": {
+            "patch": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Add or remove item from wishlist",
+                "description": "Toggle a book in the user's wishlist by adding it if it doesn't exist or removing it if it already exists.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "bookId": {
+                                        "type": "string",
+                                        "example": "63f45fdcba98d2345678abcd"
+                                    }
+                                },
+                                "required": [
+                                    "bookId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully toggled the wishlist item.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": null
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Item toggled in wishlist successfully..."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Something went wrong, please try again later."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/user/get": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get user details by ID",
+                "description": "Fetch the details of a user by their ID. The user ID is derived from the authenticated user's token.",
+                "parameters": [],
+                "responses": {
+                    "202": {
+                        "description": "User data fetched successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "63f45fdcba98d2345678abcd"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Shantanu Rawade"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "shantanu.rawade@example.com"
+                                        },
+                                        "createdAt": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-12-01T12:00:00Z"
+                                        },
+                                        "updatedAt": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-12-10T12:00:00Z"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "User not found."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Something went wrong, please try again later."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "firstName": {
+                        "type": "string",
+                        "example": "Shantanu"
+                    },
+                    "lastName": {
+                        "type": "string",
+                        "example": "Rawade"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "shantanu.rawade@example.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "pass1234"
+                    },
+                    "cart": {
+                        "type": "object",
+                        "properties": {
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "bookId": {
+                                            "type": "string",
+                                            "example": "5f50c31b08d85e1f90f8b2be"
+                                        },
+                                        "quantity": {
+                                            "type": "number",
+                                            "default": 0
+                                        }
+                                    }
+                                }
+                            },
+                            "totalAmount": {
+                                "type": "number",
+                                "default": 0
+                            }
+                        }
+                    },
+                    "wishlist": {
+                        "type": "object",
+                        "properties": {
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "bookId": {
+                                            "type": "string",
+                                            "example": "5f50c31b08d85e1f90f8b2be"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "required": [
+                    "firstName",
+                    "lastName",
+                    "email",
+                    "password"
+                ]
+            }
+        }
+    }
+}
