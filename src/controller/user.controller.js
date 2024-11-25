@@ -14,7 +14,7 @@ export const getAllUser = async (req, res) => {
 
 export const login = async (req, res) => {
     const body = req.body;
-    const data = await userServices.login(body);
+    const { data, token } = await userServices.login(body);
     if (data == 0) {
         return res.status(HttpStatus.NOT_FOUND).send({
             responce: 0
@@ -27,13 +27,14 @@ export const login = async (req, res) => {
     }
     return res.status(HttpStatus.OK).send({
         message: "User login successfully...",
-        data: data,
+        data,
+        token,
         responce: 1
     });
 }
 
-export const getUserById = async (req, res) => {
-    const data = await userServices.getUserById(req);
+export const getUser = async (req, res) => {
+    const data = await userServices.getUser(req);
     res.status(HttpStatus.ACCEPTED).send(data);
 }
 export const registerUser = async (req, res) => {
@@ -71,8 +72,15 @@ export const addToCart = async (req, res) => {
     })
 }
 
+export const placeOrder = async (req,res) => {
+   
+    const userId = req.user.id;
+    await userServices.placeOrder(userId);
+    res.send({ success: 'done' })
+}
 
 export const addToWishlist = async (req, res) => {
+  
     const userId = req.user.id;
     const reqData = req.body;
     const data = await userServices.addToWishlist(userId, reqData);

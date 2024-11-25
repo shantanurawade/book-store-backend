@@ -16,7 +16,7 @@ export const login = async (body) => {
     return { user, token };
 }
 
-export const getUserById = async (req) => { await userData.findById(req.user.id); }
+export const getUser = async (req) => { return await userData.findById(req.user.id); }
 
 export const findUser = async (reqData) => userData.findOne({ email: reqData.email });
 
@@ -32,6 +32,14 @@ export const addToCart = async (userId, reqData) => {
 
     await user.save();
     return;
+}
+
+export const placeOrder = async (userId) => {
+    const user = await userData.findById(userId);
+    user.cart.items = [];
+    user.cart.totalAmount = 0;
+    user.save();
+    return
 }
 export const addToWishlist = async (userId, reqData) => {
     const user = await userData.findById(userId);
