@@ -25,4 +25,4 @@ connectDb().then(() => {
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(jsonDoc));
 app.use(json());
-app.use(`/api/${process.env.API_VERSION}`, router());
+app.use(`/api/`, router());
