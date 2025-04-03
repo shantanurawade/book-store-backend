@@ -3,7 +3,7 @@ import * as bookServices from '../services/book.services.js'
 export const getBooks = async (req, res) => {
     const data = await bookServices.getAllBooks();
     res.send({
-        message: "this is list of all books...",
+       
         data
     });
 }
