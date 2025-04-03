@@ -10,7 +10,7 @@ export const getBookById = async (bookId) => {
 }
 
 export const createBook = async (body) => {
-    const data = await bookModel({
+    const data = await bookModel.create({
         title: body.title,
         author: body.author,
         description: body.description,
